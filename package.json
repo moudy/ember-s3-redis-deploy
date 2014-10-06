@@ -1,0 +1,22 @@
+{
+  "name": "ember-s3-redis-deploy",
+  "version": "1.0.0",
+  "description": "A very specific script to build an Ember app, push it to S3 and add the \"index.html\" to redis",
+  "repository": "https://github.com/moudy/ember-s3-redis-deploy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ember-s3-redis-deploy": "./lib//cli/deploy"
+  },
+  "author": "Moudy <moudy.elkammash@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "commander": "^2.3.0",
+    "dotenv": "^0.4.0",
+    "redis": "^0.12.1",
+    "rsvp": "^3.0.14"
+  }
+}

@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var appName = require(path.join(process.cwd(), 'package')).name;
+
+var AppBuilder = require('./app-builder');
+var S3Pusher = require('./s3-pusher');
+var RedisUpdater = require('./redis-updater');
+var Logger = require('./logger');
+
+var dotenv = require('dotenv');
+var program = require('commander');
+
+program
+  .option('-e, --environment <type>', 'Deploy target environment')
+  .option('-r, --release <type>', 'Release key')
+  .parse(process.argv);
+
+var logger = new Logger();
+
+if (!program.environment) {
+  logger.error('No environment specified');
+  process.exit(1);
+}
+
+if (!program.release) {
+  logger.error('No release specified');
+  process.exit(1);
+}
+
+process.env.NODE_ENV = program.environment;
+dotenv.load();
+
+var options = {
+  logger: logger,
+  environment: program.environment,
+  release: program.release,
+  appName: appName
+};
+
+var appBuilder = new AppBuilder(options);
+var s3Pusher = new S3Pusher(options);
+var redisUpdater = new RedisUpdater(options);
+
+appBuilder.build()
+  .then(s3Pusher.push.bind(s3Pusher))
+  .then(redisUpdater.update.bind(redisUpdater))
+  .then(function () {
+    logger.success('Deployed release "'+program.release+'" to environment "'+program.environment+'"');
+    process.exit();
+  })
+  .catch(function (error) {
+    logger.error(error);
+    process.exit();
+  });
+
