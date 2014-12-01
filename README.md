@@ -1,3 +1,6 @@
+# DON'T USE THIS!
+This is old, use this instead https://github.com/LevelbossMike/ember-deploy
+
 # ember-s3-redis-deploy
 
 A very specific command line script to build an Ember app, push it to S3, and update redis with the "index.html" contents.
