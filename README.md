@@ -1,5 +1,5 @@
 # DON'T USE THIS!
-This is old, use this instead https://github.com/LevelbossMike/ember-deploy
+This is old, use this instead https://github.com/ember-cli/ember-cli-deploy
 
 # ember-s3-redis-deploy
 
